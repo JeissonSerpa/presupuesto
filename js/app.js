@@ -19,7 +19,6 @@ class Presupuesto{
 //Clase para la interfaz HTML
 class Interfaz{
    insertarPresupuesto(cantidad){
-      console.log(cantidad);
       const total = document.querySelector('#total');
       const retante = document.querySelector('#restante');
       
@@ -27,11 +26,12 @@ class Interfaz{
       restante.innerHTML = cantidad;
    }
 
+   //Imprime el mensaje de error o correcto
    imprimirMensaje(mensaje, tipo){
       const divMensaje = document.createElement('div');
       divMensaje.classList.add('text-center', 'alert');
 
-      if(tipo = 'error'){
+      if(tipo === 'error'){
          divMensaje.classList.add('alert-danger');
       }else{
          divMensaje.classList.add('alert-success');
@@ -44,7 +44,31 @@ class Interfaz{
       setTimeout(function(){
          document.querySelector('.primario .alert').remove();
          formulario.reset();
-      }, 2000)
+      }, 3000)
+   }
+
+   //Inserta los datos del formulario en la lista
+   agregarGastoListado(gasto, cantidadGasto){
+      const gastosListado = document.querySelector('#gastos ul');
+
+      //Crear Listado
+      const li = document.createElement('li');
+      li.classList.add('list-group-iten', 'd-flex', 'justify-content-between', 'aling-items-center');
+
+      //Insertar Listado
+      li.innerHTML = `
+         ${gasto}
+         <span class="badge badge-primary badge-pill">$ ${cantidadGasto}</span>
+      `;
+      gastosListado.appendChild(li);
+   }
+
+   //Restar gasto al presupuesto
+   presupuestoRestante(cantidad){
+      const restante = document.querySelector('#restante');
+      const presupuestoRestanteUsuario = cantidadPresupuesto.presupuestoRestante(cantidad);
+
+      restante.innerHTML = presupuestoRestanteUsuario;
    }
 
 }
@@ -75,7 +99,8 @@ formulario.addEventListener('submit', function(e){
       ui.imprimirMensaje('Hubo un error', 'error');
       
    }else{
-      console.log(gasto);
-      console.log(cantidad);
+      ui.imprimirMensaje('Correcto', 'Correcto');
+      ui.agregarGastoListado(gasto, cantidad);
+      ui.presupuestoRestante(cantidad);
    }
 });
